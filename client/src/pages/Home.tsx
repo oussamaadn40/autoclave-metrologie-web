@@ -1,6 +1,7 @@
 import CycleTimeline from '@/components/CycleTimeline';
 import DataChart from '@/components/DataChart';
 import Gauge from '@/components/Gauge';
+import Navbar from '@/components/Navbar';
 import StatsCards from '@/components/StatsCards';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,6 +16,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navbar />
+
       {/* Header */}
       <header className="border-b-2 border-border bg-card">
         <div className="container py-6">
