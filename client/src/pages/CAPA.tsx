@@ -12,7 +12,9 @@ import {
 } from '@/components/ui/table';
 import Navbar from '@/components/Navbar';
 import type { CapaAction } from '@/types/capa';
+import { exportToCSV, exportToJSON } from '@/lib/export-utils';
 import { CheckCircle2, Clock, Download, Plus, XCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 const mockCapaActions: CapaAction[] = [
     {
@@ -115,9 +117,27 @@ export default function CAPA() {
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" className="gap-2">
+                        <Button
+                            variant="outline"
+                            className="gap-2"
+                            onClick={() => {
+                                exportToCSV(mockCapaActions, `capa_actions_${new Date().toISOString().split('T')[0]}.csv`);
+                                toast.success('Actions CAPA exportées en CSV!');
+                            }}
+                        >
                             <Download className="w-4 h-4" />
-                            Exporter
+                            Exporter CSV
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="gap-2"
+                            onClick={() => {
+                                exportToJSON(mockCapaActions, `capa_actions_${new Date().toISOString().split('T')[0]}.json`);
+                                toast.success('Actions CAPA exportées en JSON!');
+                            }}
+                        >
+                            <Download className="w-4 h-4" />
+                            Exporter JSON
                         </Button>
                         <Button className="gap-2">
                             <Plus className="w-4 h-4" />
@@ -244,8 +264,8 @@ export default function CAPA() {
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-sm text-muted-foreground">Efficacité:</span>
                                                     <span className={`px-2 py-0.5 rounded text-xs font-semibold ${action.effectiveness === 'effective' ? 'bg-green-500 text-white' :
-                                                            action.effectiveness === 'partial' ? 'bg-yellow-500 text-white' :
-                                                                'bg-red-500 text-white'
+                                                        action.effectiveness === 'partial' ? 'bg-yellow-500 text-white' :
+                                                            'bg-red-500 text-white'
                                                         }`}>
                                                         {action.effectiveness === 'effective' ? 'Efficace' :
                                                             action.effectiveness === 'partial' ? 'Partielle' : 'Inefficace'}

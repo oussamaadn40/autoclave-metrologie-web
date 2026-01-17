@@ -18,8 +18,10 @@ import {
 } from '@/components/ui/table';
 import Navbar from '@/components/Navbar';
 import type { Deviation } from '@/types/autoclave';
+import { exportToCSV, exportToJSON } from '@/lib/export-utils';
 import { AlertTriangle, Download, Plus } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const mockDeviations: Deviation[] = [
     {
@@ -123,9 +125,27 @@ export default function Deviations() {
                         </p>
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" className="gap-2">
+                        <Button
+                            variant="outline"
+                            className="gap-2"
+                            onClick={() => {
+                                exportToCSV(mockDeviations, `deviations_${new Date().toISOString().split('T')[0]}.csv`);
+                                toast.success('Déviations exportées en CSV!');
+                            }}
+                        >
                             <Download className="w-4 h-4" />
-                            Exporter
+                            Exporter CSV
+                        </Button>
+                        <Button
+                            variant="outline"
+                            className="gap-2"
+                            onClick={() => {
+                                exportToJSON(mockDeviations, `deviations_${new Date().toISOString().split('T')[0]}.json`);
+                                toast.success('Déviations exportées en JSON!');
+                            }}
+                        >
+                            <Download className="w-4 h-4" />
+                            Exporter JSON
                         </Button>
                         <Button className="gap-2">
                             <Plus className="w-4 h-4" />

@@ -1,12 +1,26 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import Navbar from '@/components/Navbar';
 import { mockValidationTests } from '@/lib/autoclave-data';
+import { exportReportAsText } from '@/lib/export-utils';
 import { Download, FileText, CheckCircle2, XCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function Reports() {
+    const handleDownload = (test: any) => {
+        try {
+            exportReportAsText(test);
+            toast.success('Rapport téléchargé avec succès!');
+        } catch (error) {
+            toast.error('Erreur lors du téléchargement');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-background">
+            <Navbar />
+
             {/* Header */}
             <header className="border-b-2 border-border bg-card">
                 <div className="container py-6">
@@ -111,7 +125,10 @@ export default function Reports() {
                                     <FileText className="w-4 h-4" />
                                     Voir Détails
                                 </Button>
-                                <Button className="gap-2 flex-1">
+                                <Button
+                                    className="gap-2 flex-1"
+                                    onClick={() => handleDownload(test)}
+                                >
                                     <Download className="w-4 h-4" />
                                     Télécharger PDF
                                 </Button>
